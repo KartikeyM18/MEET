@@ -1,8 +1,9 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials"
 import prisma from "../lib/prisma";
+import { NextAuthOptions } from "next-auth";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -15,9 +16,9 @@ export const authOptions = {
                 email: { label: "Email", type: "email", placeholder: "jsmith@gmail.com" },
                 password: { label: "Password", type: "password" }
             },
-            //@ts-ignore
-            async authorize(credentials: any) {
-
+            
+            async authorize(credentials) {
+                if (!credentials) return null;
                 const givenPassword = credentials.password;
                 const existingUser = await prisma.user.findFirst({
                     where: {
@@ -64,14 +65,14 @@ export const authOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET as string,
     callbacks: {
-        //@ts-ignore
-        async signIn({ user, account }: any) {
+        
+        async signIn({ user, account }) {
             
-            if (account.type !== 'credentials') {
+            if (account?.type !== 'credentials') {
 
                 const existingUser = await prisma.user.findFirst({
                     where: {
-                        email: user.email
+                        email: user.email as string
                     }
                 })
 
@@ -82,8 +83,8 @@ export const authOptions = {
                 try {
                     await prisma.user.create({
                         data: {
-                            email: user.email,
-                            name: user.name,
+                            email: user.email as string,
+                            name: user.name as string,
                             password: (process.env.SECRET_PASS_FOR_GOOGLE as string)
                         }
                     })
@@ -97,8 +98,8 @@ export const authOptions = {
             return true;
         },
 
-        //@ts-ignore
-        async session({ session, token, user }: any) {
+        
+        async session({ session, token }) {
 
             session.user.id = token.sub
            
