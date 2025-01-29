@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import React, { useState } from 'react'
 
-const page = () => {
+const Join = () => {
     const [meetingId, setMeetingId] = useState("");
     return (
         <div>
@@ -15,4 +15,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Join

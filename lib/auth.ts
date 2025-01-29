@@ -15,7 +15,8 @@ export const authOptions = {
                 email: { label: "Email", type: "email", placeholder: "jsmith@gmail.com" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials: any, req) {
+            //@ts-ignore
+            async authorize(credentials: any) {
 
                 const givenPassword = credentials.password;
                 const existingUser = await prisma.user.findFirst({
@@ -63,6 +64,7 @@ export const authOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET as string,
     callbacks: {
+        //@ts-ignore
         async signIn({ user, account }: any) {
             
             if (account.type !== 'credentials') {
@@ -78,7 +80,7 @@ export const authOptions = {
                 }
 
                 try {
-                    const newUser = await prisma.user.create({
+                    await prisma.user.create({
                         data: {
                             email: user.email,
                             name: user.name,
@@ -95,6 +97,7 @@ export const authOptions = {
             return true;
         },
 
+        //@ts-ignore
         async session({ session, token, user }: any) {
 
             session.user.id = token.sub

@@ -7,7 +7,7 @@ import MeetingSetup from './MeetingSetup';
 import MeetingRoom from './MeetingRoom';
 
 const MeetingPage = ({ meetingId }: { meetingId: string }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isSetupComplete, setIsSetUpComplete] = useState(false);
 
   const { call, isCallLoading } = useGetCallById(meetingId);

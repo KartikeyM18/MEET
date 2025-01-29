@@ -1,5 +1,5 @@
 "use client"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { Button } from "./ui/button"
 import { useEffect } from "react"
 import { redirect } from "next/navigation"

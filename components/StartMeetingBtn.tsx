@@ -1,16 +1,15 @@
 "use client"
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from './ui/button'
 import { useSession } from 'next-auth/react';
-import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
+import {  useStreamVideoClient } from '@stream-io/video-react-sdk';
 
 import { useRouter } from 'next/navigation';
 
 const StartMeetingBtn = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const client = useStreamVideoClient();
-  const [callDetails, setCallDetails] = useState<Call>();
 
   const router = useRouter();
 
@@ -24,7 +23,6 @@ const StartMeetingBtn = () => {
       if (!call) throw new Error("failed to create call");
 
       await call.getOrCreate();
-      setCallDetails(call);
       router.push(`/meeting/${call.id}`);
     } catch (e) {
       console.log(e);
