@@ -1,8 +1,8 @@
 "use client"
 import { useSession, signOut } from "next-auth/react"
-import { Button } from "./ui/button"
 import { useEffect } from "react"
 import { redirect } from "next/navigation"
+import Loader from "./Loader"
 export default function LoginButton() {
   const { data: session, status } = useSession()
   useEffect(() => {
@@ -11,14 +11,14 @@ export default function LoginButton() {
     }
   }, [status]);
 
-  if (status === "loading") return <p>loading...</p>;
+  if (status === "loading") return <Loader/>;
 
   if (session) {
     return (
       <>
-        Signed in as {session.user?.email} <br />
-        {JSON.stringify(session)} <br />
-        <Button onClick={() => signOut()}>Sign out</Button>
+        {/* Signed in as {session.user?.email} <br /> */}
+        {/* {JSON.stringify(session)} <br /> */}
+        <span onClick={() => signOut()}>Sign out</span>
       </>
     )
   }

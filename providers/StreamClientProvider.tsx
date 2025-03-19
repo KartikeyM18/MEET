@@ -1,6 +1,7 @@
 "use client"
 
 import { tokenProvider } from "@/actions/stream.actions";
+import Loader from "@/components/Loader";
 import {
     StreamVideo,
     StreamVideoClient
@@ -37,7 +38,7 @@ export const StreamClientProvider = ({ children }: { children: ReactNode }) => {
 
     if (!videoClient) {
         return <body>
-            <p>lloading...</p>
+            <Loader/>
         </body>
     }
 

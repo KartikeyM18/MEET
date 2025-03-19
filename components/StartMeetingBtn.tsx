@@ -29,8 +29,8 @@ const StartMeetingBtn = () => {
     }
   }
   return (
-    <Button onClick={createMeeting}>
-      Start MEETing
+    <Button onClick={createMeeting} className='text-4xl p-10 rounded-3xl w-[270px] flex bg-black hover:scale-110 hover:bg-gray-950 transition-all'>
+      Start <span className='font-extrabold'>MEET</span>
     </Button>
   )
 }
