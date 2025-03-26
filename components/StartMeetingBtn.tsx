@@ -2,9 +2,12 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { useSession } from 'next-auth/react';
-import {  useStreamVideoClient } from '@stream-io/video-react-sdk';
+import { useStreamVideoClient } from '@stream-io/video-react-sdk';
 
 import { useRouter } from 'next/navigation';
+
+import { useToast } from "@/hooks/use-toast"
+
 
 const StartMeetingBtn = () => {
   const { data: session } = useSession();
@@ -12,6 +15,8 @@ const StartMeetingBtn = () => {
   const client = useStreamVideoClient();
 
   const router = useRouter();
+
+  const { toast } = useToast()
 
   async function createMeeting() {
     if (!client || !session) return;
@@ -24,8 +29,16 @@ const StartMeetingBtn = () => {
 
       await call.getOrCreate();
       router.push(`/meeting/${call.id}`);
+
+      toast({
+        title: "Meeting created"
+      })
+
     } catch (e) {
       console.log(e);
+      toast({
+        title: "Failed to create Meeting"
+      })
     }
   }
   return (

@@ -20,8 +20,8 @@ const Photo = () => {
 
   if (!session) return;
   return (
-    <div className='rounded-full w-10 h-10 bg-zinc-950 text-white flex justify-center items-center text-2xl'>
-      {session.user.name[0]}
+    <div className='rounded-full w-10 h-10 bg-zinc-900 border-white border text-white flex justify-center items-center text-2xl'>
+      {session.user.name[0].toUpperCase()}
     </div>
   )
 }

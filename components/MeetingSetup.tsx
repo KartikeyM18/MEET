@@ -1,5 +1,5 @@
 "use client"
-import { useCall, VideoPreview } from '@stream-io/video-react-sdk';
+import { DeviceSettings, useCall, VideoPreview } from '@stream-io/video-react-sdk';
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button';
 
@@ -18,15 +18,16 @@ const MeetingSetup = ({ setIsSetUpComplete }: { setIsSetUpComplete: (val: boolea
         }
     }, [isMicCamToggledOn, call?.camera, call?.microphone])
     return (
-        <div>
-            Meetingsetup
+        <div className='h-screen w-full flex-col flex justify-center items-center gap-3 text-white'>
+            <h1 className='text-2xl font-bold'>Setup</h1>
 
             <VideoPreview />
-            <div>
-                <label >
+            <div className='flex h-16 items-center justify-center gap-3'>
+                <label className='flex items-center justify-center gap-2 font-medium '>
                     <input type="checkbox" checked={isMicCamToggledOn} onChange={(e) => setIsMicCamToggledOn(e.target.checked)} />
                     Join with Mic and Camera Off
                 </label>
+                <DeviceSettings />
             </div>
 
             <Button className='bg-green-500' onClick={() => {
