@@ -25,27 +25,35 @@ const MeetingPage = ({ meetingId }: { meetingId: string }) => {
   const [isSetupComplete, setIsSetUpComplete] = useState(false);
 
   const { call, isCallLoading } = useGetCallById(meetingId);
+  const pathname = window.location.href;
 
   if (!session || isCallLoading) return <Loader />
 
-  async function handleCopy() {
+  async function handleCopy(txt: string) {
     try {
-      await navigator.clipboard.writeText(meetingId);
+      await navigator.clipboard.writeText(txt);
 
     } catch (err) {
       console.error("Failed to copy text:", err);
     }
   }
 
-  function AlertDialogDemo() {
+  function AlertDialogDemo({copy}: {copy: string}) {
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline" className='text-white bg-black hover:text-white hover:bg-zinc-900' onClick={handleCopy}>Copy Meeting Id</Button>
+          <Button variant="outline" className='text-white bg-black hover:text-white hover:bg-zinc-900' 
+          onClick={()=>{
+            if(copy === "Meeting ID") handleCopy(meetingId)
+            if(copy === "Meeting Link"){
+              
+              handleCopy(pathname);
+            } 
+            }}>Copy {copy}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent className='text-white bg-zinc-800'>
           <AlertDialogHeader>
-            <AlertDialogTitle>Copied Meeting Id!</AlertDialogTitle>
+            <AlertDialogTitle>Copied {copy}!</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction>Continue</AlertDialogAction>
@@ -56,9 +64,10 @@ const MeetingPage = ({ meetingId }: { meetingId: string }) => {
   }
   return (
     <div className='h-screen w-full '>
-      <div className='absolute z-10 flex justify-center w-full pt-3'>
+      <div className='absolute z-10 flex justify-center gap-3 w-full pt-3'>
 
-        <AlertDialogDemo />
+        <AlertDialogDemo copy="Meeting ID"/>
+        <AlertDialogDemo copy="Meeting Link"/>
       </div>
 
       <StreamCall call={call}>
